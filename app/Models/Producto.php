@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User; 
 
 class Producto extends Model
 {
@@ -13,6 +14,13 @@ class Producto extends Model
         'nombre',
         'categoria',
         'precio',
-        'stock'
+        'stock',
+        'user_id',
     ];
+
+    
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

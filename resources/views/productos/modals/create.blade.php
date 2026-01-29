@@ -1,83 +1,103 @@
-<div
-    id="createModal"
-    class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 backdrop-blur-sm">
-    <!-- Modal container -->
-    <div
-        class="relative w-full max-w-3xl mx-4 bg-white rounded-2xl shadow-2xl
-               transform transition-all scale-95 opacity-0"
-        id="createModalContent">
+<div id="createModal"
+    class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/50">
 
-        <!-- Header -->
-        <div class="flex items-center justify-between px-8 py-5 border-b">
-            <h2 class="text-xl font-semibold text-gray-800">
-                Crear nuevo producto
-            </h2>
-            <button
-                onclick="closeCreateModal()"
-                class="text-gray-400 hover:text-gray-600 text-2xl leading-none">
+    <div id="createModalContent"
+        class="bg-white text-gray-800 w-full max-w-4xl rounded-2xl shadow-2xl p-8">
+
+        <!-- HEADER -->
+        <div class="flex justify-between items-center border-b pb-4 mb-6">
+            <h3 class="text-xl font-semibold text-gray-800">
+                Nuevo Producto
+            </h3>
+
+            <button onclick="closeCreateModal()"
+                class="text-gray-400 hover:text-gray-600 text-2xl">
                 &times;
             </button>
         </div>
 
-        <!-- Body -->
-        <form
+        <!-- BODY -->
+        <form method="POST"
             action="{{ route('productos.store') }}"
-            method="POST"
-            class="px-8 py-6">
+            enctype="multipart/form-data">
             @csrf
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                    <label class="label">Nombre del producto</label>
-                    <input
-                        name="nombre"
-                        class="input"
-                        placeholder="Ej: Camiseta básica"
-                        required>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+                <!-- LEFT: FORM -->
+                <div class="md:col-span-2 space-y-5">
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-600 mb-1">
+                            Nombre
+                        </label>
+                        <input name="nombre"
+                            class="modal-input text-gray-800 bg-gray-100"
+                            placeholder="Nombre del producto"
+                            required>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-600 mb-1">
+                            Categoría
+                        </label>
+                        <input name="categoria"
+                            class="modal-input text-gray-800 bg-gray-100"
+                            placeholder="Categoría"
+                            required>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-600 mb-1">
+                                Precio
+                            </label>
+                            <input name="precio"
+                                type="number"
+                                step="0.01"
+                                class="modal-input text-gray-800 bg-gray-100"
+                                placeholder="0.00"
+                                required>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-600 mb-1">
+                                Stock
+                            </label>
+                            <input name="stock"
+                                type="number"
+                                class="modal-input text-gray-800 bg-gray-100"
+                                placeholder="0"
+                                required>
+                        </div>
+                    </div>
                 </div>
 
-                <div>
-                    <label class="label">Categoría</label>
-                    <input
-                        name="categoria"
-                        class="input"
-                        placeholder="Ej: Camisas"
-                        required>
-                </div>
+                <!-- RIGHT: IMAGE -->
+                <div class="flex flex-col items-center justify-center">
+                    <div class="w-48 h-48 rounded-xl bg-gray-100 border-2 border-dashed border-gray-300
+                                flex items-center justify-center text-gray-400 mb-4">
+                        Imagen
+                    </div>
 
-                <div>
-                    <label class="label">Precio</label>
-                    <input
-                        name="precio"
-                        type="number"
-                        step="0.01"
-                        class="input"
-                        placeholder="0.00"
-                        required>
-                </div>
-
-                <div>
-                    <label class="label">Stock</label>
-                    <input
-                        name="stock"
-                        type="number"
-                        class="input"
-                        placeholder="Cantidad disponible"
-                        required>
+                    <input type="file"
+                        name="imagen"
+                        accept="image/*"
+                        class="text-sm text-gray-600">
                 </div>
             </div>
 
-            <!-- Footer -->
-            <div class="flex justify-end gap-4 mt-8 pt-6 border-t">
-                <button
-                    type="button"
+            <!-- FOOTER -->
+            <div class="flex justify-end gap-4 mt-8 border-t pt-6">
+                <button type="button"
                     onclick="closeCreateModal()"
                     class="btn-secondary">
                     Cancelar
                 </button>
 
-                <button type="submit" class="btn-primary">
-                    Guardar producto
+                <button type="submit"
+                    class="btn-primary">
+                    Guardar
                 </button>
             </div>
         </form>

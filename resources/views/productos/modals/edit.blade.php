@@ -1,59 +1,86 @@
-<div
-    id="editModal"
-    class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 backdrop-blur-sm">
-    <div
-        id="editModalContent"
-        class="bg-white w-full max-w-3xl rounded-2xl shadow-2xl
-               transform transition-all scale-95 opacity-0">
-        <!-- Header -->
-        <div class="flex justify-between items-center px-8 py-5 border-b">
-            <h3 class="text-xl font-semibold text-gray-800">Editar producto</h3>
-            <button
-                type="button"
-                onclick="closeEditModal()"
+<div id="productModal"
+    class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/50">
+
+    <div id="productModalContent"
+        class="bg-white text-gray-800 w-full max-w-4xl rounded-2xl shadow-2xl p-8">
+
+        <!-- HEADER -->
+        <div class="flex justify-between items-center border-b pb-4 mb-6">
+            <h3 id="modalTitle" class="text-xl font-semibold text-gray-800">
+                Editar Producto
+            </h3>
+
+            <button onclick="closeProductModal()"
                 class="text-gray-400 hover:text-gray-600 text-2xl">
                 &times;
             </button>
         </div>
 
-        <!-- Body -->
-        <form id="editForm" method="POST" class="px-8 py-6 space-y-6">
+        <!-- BODY -->
+        <form id="productForm" method="POST">
             @csrf
-            @method('PUT')
+            <input type="hidden" name="_method" id="modalMethod">
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                    <label class="label">Nombre</label>
-                    <input id="editNombre" name="nombre" class="input">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+                <!-- FORM -->
+                <div class="md:col-span-2 space-y-5">
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-600 mb-1">
+                            Nombre
+                        </label>
+                        <input id="modalNombre" name="nombre"
+                            class="modal-input text-gray-800 bg-gray-100">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-600 mb-1">
+                            Categoría
+                        </label>
+                        <input id="modalCategoria" name="categoria"
+                            class="modal-input text-gray-800 bg-gray-100">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-600 mb-1">
+                                Precio
+                            </label>
+                            <input id="modalPrecio" name="precio" type="number"
+                                class="modal-input text-gray-800 bg-gray-100">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-600 mb-1">
+                                Stock
+                            </label>
+                            <input id="modalStock" name="stock" type="number"
+                                class="modal-input text-gray-800 bg-gray-100">
+                        </div>
+                    </div>
                 </div>
 
-                <div>
-                    <label class="label">Categoría</label>
-                    <input id="editCategoria" name="categoria" class="input">
-                </div>
-
-                <div>
-                    <label class="label">Precio</label>
-                    <input id="editPrecio" name="precio" type="number" step="0.01" class="input">
-                </div>
-
-                <div>
-                    <label class="label">Stock</label>
-                    <input id="editStock" name="stock" type="number" class="input">
+                <!-- PREVIEW -->
+                <div class="flex items-center justify-center">
+                    <div class="w-48 h-48 rounded-xl bg-gray-100 flex items-center justify-center text-gray-400">
+                        Imagen
+                    </div>
                 </div>
             </div>
 
-            <!-- Footer -->
-            <div class="flex justify-end gap-4 pt-6 border-t">
-                <button
-                    type="button"
-                    onclick="closeEditModal()"
+            <!-- FOOTER -->
+            <div class="flex justify-end gap-4 mt-8 border-t pt-6">
+                <button type="button"
+                    onclick="closeProductModal()"
                     class="btn-secondary">
                     Cancelar
                 </button>
 
-                <button type="submit" class="btn-primary">
-                    Actualizar producto
+                <button id="modalSubmit"
+                    type="submit"
+                    class="btn-primary">
+                    Guardar cambios
                 </button>
             </div>
         </form>

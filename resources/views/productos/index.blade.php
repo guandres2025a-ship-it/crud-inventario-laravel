@@ -2,11 +2,20 @@
 
 @section('content')
 
+{{-- DEBUG TEMPORAL (puedes borrar luego) --}}
+<div class="mb-4 text-sm text-gray-500">
+    Usuario: {{ auth()->user()->email }} |
+    Rol: {{ auth()->user()->role }} |
+    Productos visibles: {{ $productos->count() }}
+</div>
+
 <div class="flex justify-between items-center mb-6">
     <h2 class="text-2xl font-bold">Productos</h2>
 
-    <button onclick="openCreateModal()"
-        class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+    <button
+        type="button"
+        onclick="openCreateModal()"
+        class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
         + Nuevo producto
     </button>
 </div>
@@ -25,8 +34,8 @@
 
         <tbody class="divide-y divide-gray-200">
             @foreach ($productos as $producto)
-            <tr class="hover:bg-gray-50 transition">
-                <td class="px-6 py-4 font-medium text-gray-900">
+            <tr class="hover:bg-gray-50 transition text-gray-800">
+                <td class="px-6 py-4 font-medium">
                     {{ $producto->nombre }}
                 </td>
 
@@ -36,34 +45,43 @@
                     </span>
                 </td>
 
-                <td class="px-6 py-4">
-                    <span class="font-semibold">${{ number_format($producto->precio, 2) }}</span>
+                <td class="px-6 py-4 font-semibold">
+                    ${{ number_format($producto->precio, 2) }}
                 </td>
 
                 <td class="px-6 py-4">
                     <span class="inline-flex items-center px-2 py-1 rounded-md text-xs
-                        {{ $producto->stock > 0 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' }}">
+                            {{ $producto->stock > 0 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' }}">
                         {{ $producto->stock }}
                     </span>
                 </td>
 
                 <td class="px-6 py-4 text-right space-x-2">
+
+                    {{-- EDITAR --}}
                     <button
                         type="button"
-                        onclick="openEditModal(@js($producto))"
+                        onclick="openEditModal(JSON.parse(this.dataset.producto))"
+                        data-producto='@json($producto)'
                         class="inline-flex items-center px-3 py-1.5 text-xs font-medium
-           rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 transition">
+                                   rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 transition">
                         Editar
                     </button>
 
+                    {{-- ELIMINAR --}}
+                    @if(auth()->user()->isAdmin() || $producto->user_id === auth()->id())
                     <form action="{{ route('productos.destroy', $producto) }}" method="POST" class="inline">
                         @csrf
                         @method('DELETE')
                         <button
-                            class="inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-200 transition">
+                            class="inline-flex items-center px-3 py-1.5 text-xs font-medium
+                                           rounded-md text-red-700 bg-red-100 hover:bg-red-200 transition"
+                            onclick="return confirm('¿Eliminar este producto?')">
                             Eliminar
                         </button>
                     </form>
+                    @endif
+
                 </td>
             </tr>
             @endforeach
@@ -71,11 +89,12 @@
     </table>
 </div>
 
-
+{{-- PAGINACIÓN --}}
 <div class="mt-6">
     {{ $productos->links() }}
 </div>
 
+{{-- MODALES --}}
 @include('productos.modals.create')
 @include('productos.modals.edit')
 

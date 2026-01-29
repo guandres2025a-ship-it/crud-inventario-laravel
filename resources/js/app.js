@@ -1,71 +1,108 @@
-import '../css/app.css';
+document.addEventListener("DOMContentLoaded", () => {
+    /* ======================
+       CREATE MODAL
+    ====================== */
+    window.openCreateModal = () =>
+        toggleModal("createModal", "createModalContent", true);
+    window.closeCreateModal = () =>
+        toggleModal("createModal", "createModalContent", false);
 
-/* =========================
-   CREATE MODAL
+    /* ======================
+       PRODUCT MODAL
+    ====================== */
+    const modal = document.getElementById("productModal");
+    const content = document.getElementById("productModalContent");
+    const form = document.getElementById("productForm");
+
+    const title = document.getElementById("modalTitle");
+    const submit = document.getElementById("modalSubmit");
+    const method = document.getElementById("modalMethod");
+
+    const f = {
+        nombre: document.getElementById("modalNombre"),
+        categoria: document.getElementById("modalCategoria"),
+        precio: document.getElementById("modalPrecio"),
+        stock: document.getElementById("modalStock"),
+    };
+
+    function openBase(p) {
+        if (!p) return;
+
+        f.nombre.value = p.nombre ?? "";
+        f.categoria.value = p.categoria ?? "";
+        f.precio.value = p.precio ?? "";
+        f.stock.value = p.stock ?? "";
+
+        modal.classList.remove("hidden");
+        modal.classList.add("flex");
+
+        setTimeout(() => {
+            content.classList.remove("scale-95", "opacity-0");
+        }, 10);
+    }
+
+    window.openEdit = (p) => {
+        openBase(p);
+        title.innerText = "Editar Producto";
+        submit.innerText = "Guardar cambios";
+        submit.classList.remove("hidden", "bg-red-600");
+        submit.classList.add("bg-blue-600");
+
+        method.value = "PUT";
+        form.action = `/productos/${p.id}`;
+
+        Object.values(f).forEach((i) => (i.disabled = false));
+    };
+
+    window.openView = (p) => {
+        openBase(p);
+        title.innerText = "Detalle del Producto";
+        submit.classList.add("hidden");
+
+        Object.values(f).forEach((i) => (i.disabled = true));
+    };
+
+    /* =========================
+   DELETE CONFIRM MODAL
 ========================= */
-window.openCreateModal = () => {
-    const modal = document.getElementById('createModal');
-    const content = document.getElementById('createModalContent');
+    window.openDeleteConfirm = (producto) => {
+        const modal = document.getElementById("deleteModal");
+        const form = document.getElementById("deleteForm");
+        const name = document.getElementById("deleteProductName");
 
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
+        name.textContent = producto.nombre;
+        form.action = `/productos/${producto.id}`;
 
-    setTimeout(() => {
-        content.classList.remove('scale-95', 'opacity-0');
-        content.classList.add('scale-100', 'opacity-100');
-    }, 10);
-};
+        modal.classList.remove("hidden");
+        modal.classList.add("flex");
+    };
 
-window.closeCreateModal = () => {
-    const modal = document.getElementById('createModal');
-    const content = document.getElementById('createModalContent');
+    window.closeDeleteConfirm = () => {
+        const modal = document.getElementById("deleteModal");
+        modal.classList.add("hidden");
+        modal.classList.remove("flex");
+    };
 
-    content.classList.add('scale-95', 'opacity-0');
-    content.classList.remove('scale-100', 'opacity-100');
+    window.closeProductModal = () =>
+        toggleModal("productModal", "productModalContent", false);
 
-    setTimeout(() => {
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
-    }, 200);
-};
+    function toggleModal(m, c, open) {
+        const modal = document.getElementById(m);
+        const content = document.getElementById(c);
 
-/* =========================
-   EDIT MODAL
-========================= */
-window.openEditModal = (producto) => {
-  console.log('EDIT CLICK', producto);
-    const modal = document.getElementById('editModal');
-  const content = document.getElementById('editModalContent');
-  
-
-    // Acción del form
-    document.getElementById('editForm').action = `/productos/${producto.id}`;
-
-    // Valores
-    document.getElementById('editNombre').value = producto.nombre;
-    document.getElementById('editCategoria').value = producto.categoria;
-    document.getElementById('editPrecio').value = producto.precio;
-    document.getElementById('editStock').value = producto.stock;
-
-    // Mostrar modal
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
-
-    setTimeout(() => {
-        content.classList.remove('scale-95', 'opacity-0');
-        content.classList.add('scale-100', 'opacity-100');
-    }, 10);
-};
-
-window.closeEditModal = () => {
-    const modal = document.getElementById('editModal');
-    const content = document.getElementById('editModalContent');
-
-    content.classList.add('scale-95', 'opacity-0');
-    content.classList.remove('scale-100', 'opacity-100');
-
-    setTimeout(() => {
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
-    }, 200);
-};
+        if (open) {
+            modal.classList.remove("hidden");
+            modal.classList.add("flex");
+            setTimeout(
+                () => content.classList.remove("scale-95", "opacity-0"),
+                10,
+            );
+        } else {
+            content.classList.add("scale-95", "opacity-0");
+            setTimeout(() => {
+                modal.classList.add("hidden");
+                modal.classList.remove("flex");
+            }, 200);
+        }
+    }
+});
