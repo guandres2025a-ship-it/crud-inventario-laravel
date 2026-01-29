@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Producto\validacionesRequest as ProductoValidacionesRequest;
 use App\Models\Producto;
-use Illuminate\Http\Request;
+
 
 class ProductoController extends Controller
 {
@@ -31,14 +32,9 @@ class ProductoController extends Controller
      * GUARDAR PRODUCTO
      * - Siempre se asigna al usuario logueado
      */
-    public function store(Request $request)
+    public function store(ProductoValidacionesRequest $request)
     {
-        $request->validate([
-            'nombre'    => 'required|string|max:255',
-            'categoria' => 'required|string|max:255',
-            'precio'    => 'required|numeric|min:0',
-            'stock'     => 'required|integer|min:0',
-        ]);
+        
 
         Producto::create([
             'nombre'    => $request->nombre,
@@ -69,18 +65,13 @@ class ProductoController extends Controller
      * ACTUALIZAR PRODUCTO
      * - Solo admin o dueño
      */
-    public function update(Request $request, Producto $producto)
+    public function update(ProductoValidacionesRequest $request, Producto $producto)
     {
         if (!auth()->user()->isAdmin() && $producto->user_id !== auth()->id()) {
             abort(403);
         }
 
-        $request->validate([
-            'nombre'    => 'required|string|max:255',
-            'categoria' => 'required|string|max:255',
-            'precio'    => 'required|numeric|min:0',
-            'stock'     => 'required|integer|min:0',
-        ]);
+       
 
         $producto->update([
             'nombre'    => $request->nombre,

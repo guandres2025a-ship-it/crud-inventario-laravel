@@ -22,7 +22,13 @@ class validacionesRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'nombre'    => 'required|string|max:255',
+            'categoria' => 'required|string|max:255',
+            'precio'    => 'required|numeric|min:0',
+            'stock'     => 'required|integer|min:0',
         ];
     }
 }
+
+
+   
