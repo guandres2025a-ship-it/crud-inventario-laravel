@@ -2,12 +2,7 @@
 
 @section('content')
 
-{{-- DEBUG TEMPORAL (puedes borrar luego) --}}
-<div class="mb-4 text-sm text-gray-500">
-    Usuario: {{ auth()->user()->email }} |
-    Rol: {{ auth()->user()->role }} |
-    Productos visibles: {{ $productos->count() }}
-</div>
+
 
 <div class="flex justify-between items-center mb-6">
     <h2 class="text-2xl font-bold">Productos</h2>
@@ -32,61 +27,17 @@
             </tr>
         </thead>
 
-        <tbody class="divide-y divide-gray-200">
-            @foreach ($productos as $producto)
-            <tr class="hover:bg-gray-50 transition text-gray-800">
-                <td class="px-6 py-4 font-medium">
-                    {{ $producto->nombre }}
-                </td>
-
-                <td class="px-6 py-4">
-                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-700">
-                        {{ $producto->categoria }}
-                    </span>
-                </td>
-
-                <td class="px-6 py-4 font-semibold">
-                    ${{ number_format($producto->precio, 2) }}
-                </td>
-
-                <td class="px-6 py-4">
-                    <span class="inline-flex items-center px-2 py-1 rounded-md text-xs
-                            {{ $producto->stock > 0 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' }}">
-                        {{ $producto->stock }}
-                    </span>
-                </td>
-
-                <td class="px-6 py-4 text-right space-x-2">
-
-                    {{-- EDITAR --}}
-                    <button
-                        type="button"
-                        onclick="openEditModal(JSON.parse(this.dataset.producto))"
-                        data-producto='@json($producto)'
-                        class="inline-flex items-center px-3 py-1.5 text-xs font-medium
-                                   rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 transition">
-                        Editar
-                    </button>
-
-                    {{-- ELIMINAR --}}
-                    @if(auth()->user()->isAdmin() || $producto->user_id === auth()->id())
-                    <form action="{{ route('productos.destroy', $producto) }}" method="POST" class="inline">
-                        @csrf
-                        @method('DELETE')
-                        <button
-                            class="inline-flex items-center px-3 py-1.5 text-xs font-medium
-                                           rounded-md text-red-700 bg-red-100 hover:bg-red-200 transition"
-                            onclick="return confirm('¿Eliminar este producto?')">
-                            Eliminar
-                        </button>
-                    </form>
-                    @endif
-
-                </td>
-            </tr>
-            @endforeach
+        <tbody class="divide-y divide-gray-200" id="productos-body">
+            <!-- Aquí se insertaran los productos -->
         </tbody>
     </table>
+
+    <script>
+        const USER_ID = {{auth()->id()}};
+        const IS_ADMIN = {{auth()->user()->isAdmin() ? 'true' : 'false'}};
+    </script>
+
+    <script src="{{ asset('js/app.js') }}"></script>
 </div>
 
 {{-- PAGINACIÓN --}}

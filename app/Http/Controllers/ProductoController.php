@@ -45,7 +45,7 @@ class ProductoController extends Controller
             'categoria' => $request->categoria,
             'precio'    => $request->precio,
             'stock'     => $request->stock,
-            'user_id'   => auth()->id(), // 🔑 CLAVE
+            'user_id'   => auth()->id(), 
         ]);
 
         return redirect()->route('dashboard')

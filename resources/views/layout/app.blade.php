@@ -23,6 +23,15 @@
                     📦 Productos
                 </a>
             </nav>
+
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button
+                    type="submit"
+                    class="text-sm text-white bg-red-600 w-full p-4 rounded-lg mb-2  hover:bg-red-700">
+                    Cerrar sesión
+                </button>
+            </form>
         </aside>
 
         <!-- MAIN -->
