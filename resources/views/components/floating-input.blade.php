@@ -7,7 +7,6 @@
 ])
 
 <div class="relative">
-    <!-- Input -->
     <input
         type="{{ $type }}"
         name="{{ $name }}"
@@ -30,34 +29,30 @@
             focus:ring-2
             focus:ring-blue-500
             focus:border-blue-500
-        " />
+        "
+    />
 
-    <!-- Label -->
     <label
         class="
             absolute
             left-4
             top-4
-            text-gray-500
-            text-sm
-            transition-all
-            duration-200
-            pointer-events-none
+            text-base
+            text-gray-400
             bg-white
             px-1
-
-            peer-placeholder-shown:top-4
-            peer-placeholder-shown:text-base
-            peer-placeholder-shown:text-gray-400
+            pointer-events-none
+            transition-all
 
             peer-focus:-top-2
             peer-focus:text-xs
             peer-focus:text-blue-600
 
-            peer-not-placeholder-shown:-top-2
-            peer-not-placeholder-shown:text-xs
-            peer-not-placeholder-shown:text-gray-600
-        ">
+            peer-[&:not(:placeholder-shown)]:-top-2
+            peer-[&:not(:placeholder-shown)]:text-xs
+            peer-[&:not(:placeholder-shown)]:text-gray-600
+        "
+    >
         {{ $label }}
     </label>
 </div>
