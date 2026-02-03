@@ -1,37 +1,35 @@
-<!DOCTYPE html>
-<html lang="es" class="h-full bg-gray-100 dark:bg-gray-900">
+<x-app-layout>
 
-<head>
-    <meta charset="UTF-8">
-    <title>Dashboard | Productos</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-
-<body class="h-full text-gray-800 dark:text-gray-100">
+<div class="h-full text-gray-800 dark:text-gray-100">
     <div class="flex h-screen overflow-hidden">
 
         <!-- SIDEBAR -->
         <aside class="w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col">
-            <div class="h-16 flex items-center gap-3 px-6 font-semibold">
-                <div class="w-9 h-9 flex items-center justify-center rounded-lg bg-blue-600 text-white">i</div>
-                Clean Inventory
+            <div class="h-16 flex items-center justify-center border-b border-gray-200 dark:border-gray-700">
+                <span class="text-lg font-bold">
+                    {{ config('app.name', 'Clothes_CRUD') }}
+                </span>
             </div>
 
-            <nav class="flex-1 px-3 space-y-1">
+            <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
                 <a href="{{ route('dashboard') }}"
-                    class="flex items-center gap-3 px-4 py-2 rounded-lg bg-blue-50 dark:bg-blue-900 text-blue-600 font-medium">
-                    📦 Productos
+                    class="block px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700
+                           {{ request()->routeIs('dashboard') ? 'bg-gray-200 dark:bg-gray-700 font-semibold' : '' }}">
+                    Inicio
+                </a>
+
+                <a href="{{ route('productos.index') }}"
+                    class="block px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700
+                           {{ request()->routeIs('productos.*') ? 'bg-gray-200 dark:bg-gray-700 font-semibold' : '' }}">
+                    Productos
+                </a>
+
+                <a href=""
+                    class="block px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700
+                           {{ request()->routeIs('categorias.*') ? 'bg-gray-200 dark:bg-gray-700 font-semibold' : '' }}">
+                    Categorías
                 </a>
             </nav>
-
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button
-                    type="submit"
-                    class="text-sm text-white bg-red-600 w-full p-4 rounded-lg mb-2  hover:bg-red-700">
-                    Cerrar sesión
-                </button>
-            </form>
         </aside>
 
         <!-- MAIN -->
@@ -39,21 +37,65 @@
 
             <!-- TOPBAR -->
             <header class="h-16 bg-white dark:bg-gray-800 border-b flex items-center justify-between px-6">
-                <input type="text" placeholder="Buscar productos..."
-                    class="w-full max-w-lg bg-gray-100 rounded-lg px-4 py-2 text-sm">
 
-                <div class="flex items-center gap-4">
-                    🔔
-                    <div class="flex items-center gap-2">
-                        <img class="w-8 h-8 rounded-full" src="https://i.pravatar.cc/40">
-                        <span class="text-sm font-medium">Admin</span>
-                    </div>
+                <input
+                    type="text"
+                    placeholder="Buscar productos..."
+                    class="w-full max-w-lg bg-gray-100 rounded-lg px-4 py-2 text-sm"
+                >
+
+                <div class="flex items-center gap-6">
+
+                    <x-dropdown align="right" width="48">
+
+                        <!-- BOTÓN (CLICK) -->
+                        <x-slot name="trigger">
+                            <button type="button" class="flex items-center gap-2 focus:outline-none">
+                                <img
+                                    class="w-8 h-8 rounded-full object-cover"
+                                    src="{{ Auth::user()->profile_photo_url }}"
+                                    alt="{{ Auth::user()->name }}"
+                                >
+                                <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+                        </x-slot>
+
+                        <!-- MENÚ -->
+                        <x-slot name="content">
+
+                            <div class="px-4 py-2">
+                                <div class="text-sm font-medium">{{ Auth::user()->name }}</div>
+                                <div class="text-xs text-gray-500">{{ Auth::user()->email }}</div>
+                            </div>
+
+                            <div class="border-t"></div>
+
+                            <x-dropdown-link href="{{ route('profile.show') }}">
+                                Perfil
+                            </x-dropdown-link>
+
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <x-dropdown-link
+                                    href="{{ route('logout') }}"
+                                    @click.prevent="$root.submit();"
+                                >
+                                    Cerrar sesión
+                                </x-dropdown-link>
+                            </form>
+
+                        </x-slot>
+                    </x-dropdown>
+
                 </div>
             </header>
 
             <!-- CONTENT -->
             <main class="flex-1 overflow-y-auto p-6">
-
                 <div class="flex justify-between items-center mb-6">
                     <h1 class="text-2xl font-bold">Gestión de Productos</h1>
                     <button onclick="openCreateModal()" class="btn-primary">
@@ -110,17 +152,10 @@
                     </div>
                 </div>
             </main>
+            </main>
+
         </div>
     </div>
+</div>
 
-    {{-- MODAL CREATE --}}
-    @include('productos.modals.create')
-
-    {{-- MODAL EDIT / VIEW / DELETE --}}
-    @include('productos.modals.edit')
-
-    @include('productos.modals.delete-confirm')
-
-</body>
-
-</html>
+</x-app-layout>
