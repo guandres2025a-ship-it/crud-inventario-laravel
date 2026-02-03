@@ -151,8 +151,15 @@
                         {{ $productos->links() }}
                     </div>
                 </div>
+
+    @include('productos.modals.create')
+
+    {{-- MODAL EDIT / VIEW / DELETE --}}
+    @include('productos.modals.edit')
+
+    @include('productos.modals.delete-confirm')
             </main>
-            </main>
+            
 
         </div>
     </div>
