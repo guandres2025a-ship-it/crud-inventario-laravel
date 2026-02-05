@@ -2,7 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\categoria;
 use App\Models\Producto;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ProductoFactory extends Factory
@@ -16,6 +18,8 @@ class ProductoFactory extends Factory
             'categoria' => $this->faker->randomElement(['Camisas', 'Pantalones', 'Zapatos', 'Chaquetas']),
             'precio' => $this->faker->randomFloat(2, 20, 300),
             'stock' => $this->faker->numberBetween(1, 100),
+            'categoria_id' => categoria::factory(),
+            'user_id' => User::factory()
         ];
     }
 }

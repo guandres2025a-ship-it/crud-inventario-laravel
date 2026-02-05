@@ -8,7 +8,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
-use Laravel\Jetstream\HasTeams;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -18,7 +17,6 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory;
     use HasProfilePhoto;
-    use HasTeams;
     use Notifiable;
     use TwoFactorAuthenticatable;
 
@@ -31,13 +29,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role',
     ];
-
-    public function isAdmin()
-    {
-        return $this->role === 'admin';
-    }
 
     /**
      * The attributes that should be hidden for serialization.
@@ -72,7 +64,4 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-
-
-    
 }

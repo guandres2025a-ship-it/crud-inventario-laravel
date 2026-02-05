@@ -2,7 +2,7 @@
   class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 backdrop-blur-sm">
 
   <div id="productModalContent"
-    class="bg-white dark:bg-gray-800 w-full max-w-4xl rounded-2xl shadow-2xl
+    class="bg-white w-full max-w-4xl rounded-2xl shadow-2xl
                 transform transition-all scale-95 opacity-0">
 
     <!-- HEADER -->

@@ -1,11 +1,11 @@
 <x-app-layout>
 
-<div class="h-full text-gray-800 dark:text-gray-100">
+<div class="h-full text-gray-800">
     <div class="flex h-screen overflow-hidden">
 
         <!-- SIDEBAR -->
-        <aside class="w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col">
-            <div class="h-16 flex items-center justify-center border-b border-gray-200 dark:border-gray-700">
+        <aside class="w-64 bg-white border-r border-gray-200 flex flex-col">
+            <div class="h-16 flex items-center justify-center border-b border-gray-200">
                 <span class="text-lg font-bold">
                     {{ config('app.name', 'Clothes_CRUD') }}
                 </span>
@@ -13,20 +13,20 @@
 
             <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
                 <a href="{{ route('dashboard') }}"
-                    class="block px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700
-                           {{ request()->routeIs('dashboard') ? 'bg-gray-200 dark:bg-gray-700 font-semibold' : '' }}">
+                    class="block px-4 py-2 rounded-lg hover:bg-gray-100
+                           {{ request()->routeIs('dashboard') ? 'bg-gray-200 font-semibold' : '' }}">
                     Inicio
                 </a>
 
                 <a href="{{ route('productos.index') }}"
-                    class="block px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700
-                           {{ request()->routeIs('productos.*') ? 'bg-gray-200 dark:bg-gray-700 font-semibold' : '' }}">
+                    class="block px-4 py-2 rounded-lg hover:bg-gray-100
+                           {{ request()->routeIs('productos.*') ? 'bg-gray-200 font-semibold' : '' }}">
                     Productos
                 </a>
 
                 <a href=""
-                    class="block px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700
-                           {{ request()->routeIs('categorias.*') ? 'bg-gray-200 dark:bg-gray-700 font-semibold' : '' }}">
+                    class="block px-4 py-2 rounded-lg hover:bg-gray-100
+                           {{ request()->routeIs('categorias.*') ? 'bg-gray-200 font-semibold' : '' }}">
                     Categorías
                 </a>
             </nav>
@@ -36,7 +36,7 @@
         <div class="flex-1 flex flex-col">
 
             <!-- TOPBAR -->
-            <header class="h-16 bg-white dark:bg-gray-800 border-b flex items-center justify-between px-6">
+            <header class="h-16 bg-white border-b flex items-center justify-between px-6">
 
                 <input
                     type="text"
@@ -103,9 +103,9 @@
                     </button>
                 </div>
 
-                <div class="bg-white dark:bg-gray-800 rounded-xl shadow overflow-hidden">
+                <div class="bg-white rounded-xl shadow overflow-hidden">
                     <table class="w-full text-sm">
-                        <thead class="bg-gray-50 dark:bg-gray-700">
+                        <thead class="bg-gray-50">
                             <tr>
                                 <th class="p-4 text-left">Producto</th>
                                 <th class="p-4 text-left">Categoría</th>
