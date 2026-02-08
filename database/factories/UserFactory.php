@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Laravel\Jetstream\Features;
 
+use function Livewire\str;
+use function Symfony\Component\String\s;
+
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
  */
@@ -36,7 +39,15 @@ class UserFactory extends Factory
             'remember_token' => Str::random(10),
             'profile_photo_path' => null,
             'current_team_id' => null,
+            'role' => 'user'
         ];
+    }
+
+    public function admin(): static
+    {
+        return $this->state(fn()=>[
+            'role' => 'admin'
+        ]);
     }
 
     /**

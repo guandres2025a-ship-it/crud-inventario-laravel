@@ -7,19 +7,14 @@ use App\Models\Producto;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder
+class ProductoSeeder extends Seeder
 {
     /**
      * Seed the application's database.
      */
     public function run(): void
     {
-        // User::factory(10)->withPersonalTeam()->create();
 
-        // User::factory()->withPersonalTeam()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
 
         Producto::factory()->count(50)->create();
     }

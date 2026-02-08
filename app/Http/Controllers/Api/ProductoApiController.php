@@ -1,42 +1,53 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Models;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreProductoRequest as RequestsStoreProductoRequest;
-use App\Http\Requests\UpdateProductoRequest;
-use App\Models\Producto;
-use Illuminate\Http\Request\StoreProductoRequest;
-use phpDocumentor\Reflection\DocBlock\Tags\Return_;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Fortify\TwoFactorAuthenticatable;
+use Laravel\Jetstream\HasProfilePhoto;
+use Laravel\Sanctum\HasApiTokens;
 
-class ProductoApiController extends Controller
+class User extends Authenticatable
 {
-    public function index()
+    use HasApiTokens;
+    use HasFactory;
+    use HasProfilePhoto;
+    use Notifiable;
+    use TwoFactorAuthenticatable;
+
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+        'role',
+    ];
+
+    protected $hidden = [
+        'password',
+        'remember_token',
+        'two_factor_recovery_codes',
+        'two_factor_secret',
+    ];
+
+    protected $appends = [
+        'profile_photo_url',
+    ];
+
+    protected function casts(): array
     {
-        return response()->json(
-            Producto::all()
-        );
+        return [
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+        ];
     }
 
-    public function store(RequestsStoreProductoRequest $request)
+    /**
+     * 🔐 Verifica si el usuario es administrador
+     */
+    public function isAdmin(): bool
     {
-        $producto = Producto::created([
-            'nombre' => $request->nombre,
-            'categoria' => $request->categoria,
-            'precio'    => $request->precio,
-            'stock'     => $request->stock,
-            'user_id' => auth()->id(),
-        ]);
-
-        return response()->json($producto, 201);
+        return $this->role === 'admin';
     }
-
-
-    public function update(UpdateProductoRequest $request, Producto $producto)
-    {
-        $producto->update($request->validate());
-        return response()->json($producto);
-    }
-
-    
 }
