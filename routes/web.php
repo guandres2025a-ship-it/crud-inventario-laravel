@@ -17,4 +17,5 @@ Route::middleware([
     Route::get('/dashboard', [ProductoController::class, 'index'])->name('dashboard');
 
     Route::resource('productos', ProductoController::class);
+    Route::resource('categorias', \App\Http\Controllers\CategoriaController::class);
 });

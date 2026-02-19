@@ -5,15 +5,21 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <x-application-mark class="block h-9 w-auto" />
+                    <a href="{{ route('dashboard') }}" class="group">
+                        <x-application-mark
+                            class="block h-9 w-auto text-premium-600 transition duration-300 group-hover:scale-110" />
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                    <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')"
+                        class="text-gray-600 hover:text-premium-600 active:text-premium-700 font-medium transition-colors duration-200">
                         {{ __('Dashboard') }}
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('categorias.index') }}" :active="request()->routeIs('categorias.*')"
+                        class="text-gray-600 hover:text-premium-600 active:text-premium-700 font-medium transition-colors duration-200">
+                        {{ __('Categorías') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -152,6 +158,9 @@
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link href="{{ route('categorias.index') }}" :active="request()->routeIs('categorias.*')">
+                {{ __('Categorías') }}
             </x-responsive-nav-link>
         </div>
 

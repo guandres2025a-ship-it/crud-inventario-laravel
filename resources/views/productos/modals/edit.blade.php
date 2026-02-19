@@ -1,8 +1,6 @@
-<div id="productModal"
-    class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/50">
+<div id="productModal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/50">
 
-    <div id="productModalContent"
-        class="bg-white text-gray-800 w-full max-w-4xl rounded-2xl shadow-2xl p-8">
+    <div id="productModalContent" class="bg-white text-gray-800 w-full max-w-4xl rounded-2xl shadow-2xl p-8">
 
         <!-- HEADER -->
         <div class="flex justify-between items-center border-b pb-4 mb-6">
@@ -10,8 +8,7 @@
                 Editar Producto
             </h3>
 
-            <button onclick="closeProductModal()"
-                class="text-gray-400 hover:text-gray-600 text-2xl">
+            <button onclick="closeProductModal()" class="text-gray-400 hover:text-gray-600 text-2xl">
                 &times;
             </button>
         </div>
@@ -30,16 +27,20 @@
                         <label class="block text-sm font-medium text-gray-600 mb-1">
                             Nombre
                         </label>
-                        <input id="modalNombre" name="nombre"
-                            class="modal-input text-gray-800 bg-gray-100">
+                        <input id="modalNombre" name="nombre" class="modal-input text-gray-800 bg-gray-100">
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium text-gray-600 mb-1">
                             Categoría
                         </label>
-                        <input id="modalCategoria" name="categoria"
-                            class="modal-input text-gray-800 bg-gray-100">
+                        <select id="modalCategoria" name="categoria_id" class="modal-input text-gray-800 bg-gray-100"
+                            required>
+                            <option value="">Seleccione una categoría</option>
+                            @foreach($categorias as $categoria)
+                                <option value="{{ $categoria->id }}">{{ $categoria->nombre }}</option>
+                            @endforeach
+                        </select>
                     </div>
 
                     <div class="grid grid-cols-2 gap-4">
@@ -71,15 +72,11 @@
 
             <!-- FOOTER -->
             <div class="flex justify-end gap-4 mt-8 border-t pt-6">
-                <button type="button"
-                    onclick="closeProductModal()"
-                    class="btn-secondary">
+                <button type="button" onclick="closeProductModal()" class="btn-secondary">
                     Cancelar
                 </button>
 
-                <button id="modalSubmit"
-                    type="submit"
-                    class="btn-primary">
+                <button id="modalSubmit" type="submit" class="btn-primary">
                     Guardar cambios
                 </button>
             </div>

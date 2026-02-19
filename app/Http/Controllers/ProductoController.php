@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Producto\validacionesRequest as ProductoValidacionesRequest;
 use App\Models\Producto;
+use App\Models\Categoria;
 
 
 class ProductoController extends Controller
@@ -14,7 +15,7 @@ class ProductoController extends Controller
      * - Usuario: ve solo los suyos
      */
 
-    
+
     public function index()
     {
         $user = auth()->user();
@@ -25,7 +26,8 @@ class ProductoController extends Controller
             $productos = Producto::where('user_id', $user->id)->paginate(10);
         }
 
-        return view('productos.index', compact('productos'));
+        $categorias = Categoria::all();
+        return view('productos.index', compact('productos', 'categorias'));
     }
 
     /**
@@ -34,18 +36,18 @@ class ProductoController extends Controller
      */
     public function store(ProductoValidacionesRequest $request)
     {
-        
+
 
         Producto::create([
-            'nombre'    => $request->nombre,
-            'categoria' => $request->categoria,
-            'precio'    => $request->precio,
-            'stock'     => $request->stock,
-            'user_id'   => auth()->id(), 
+            'nombre' => $request->nombre,
+            'categoria_id' => $request->categoria_id,
+            'precio' => $request->precio,
+            'stock' => $request->stock,
+            'user_id' => auth()->id(),
         ]);
 
         return redirect()->route('dashboard')
-                         ->with('success', 'Producto creado correctamente.');
+            ->with('success', 'Producto creado correctamente.');
     }
 
     /**
@@ -58,7 +60,8 @@ class ProductoController extends Controller
             abort(403);
         }
 
-        return view('productos.edit', compact('producto'));
+        $categorias = Categoria::all();
+        return view('productos.edit', compact('producto', 'categorias'));
     }
 
     /**
@@ -71,17 +74,17 @@ class ProductoController extends Controller
             abort(403);
         }
 
-       
+
 
         $producto->update([
-            'nombre'    => $request->nombre,
-            'categoria' => $request->categoria,
-            'precio'    => $request->precio,
-            'stock'     => $request->stock,
+            'nombre' => $request->nombre,
+            'categoria_id' => $request->categoria_id,
+            'precio' => $request->precio,
+            'stock' => $request->stock,
         ]);
 
         return redirect()->route('dashboard')
-                         ->with('success', 'Producto actualizado correctamente.');
+            ->with('success', 'Producto actualizado correctamente.');
     }
 
     /**
@@ -97,6 +100,6 @@ class ProductoController extends Controller
         $producto->delete();
 
         return redirect()->route('dashboard')
-                         ->with('success', 'Producto eliminado correctamente.');
+            ->with('success', 'Producto eliminado correctamente.');
     }
 }

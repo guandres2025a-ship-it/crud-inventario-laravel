@@ -1,8 +1,6 @@
-<div id="createModal"
-    class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/50">
+<div id="createModal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/50">
 
-    <div id="createModalContent"
-        class="bg-white text-gray-800 w-full max-w-4xl rounded-2xl shadow-2xl p-8">
+    <div id="createModalContent" class="bg-white text-gray-800 w-full max-w-4xl rounded-2xl shadow-2xl p-8">
 
         <!-- HEADER -->
         <div class="flex justify-between items-center border-b pb-4 mb-6">
@@ -10,16 +8,13 @@
                 Nuevo Producto
             </h3>
 
-            <button onclick="closeCreateModal()"
-                class="text-gray-400 hover:text-gray-600 text-2xl">
+            <button onclick="closeCreateModal()" class="text-gray-400 hover:text-gray-600 text-2xl">
                 &times;
             </button>
         </div>
 
         <!-- BODY -->
-        <form method="POST"
-            action="{{ route('productos.store') }}"
-            enctype="multipart/form-data">
+        <form method="POST" action="{{ route('productos.store') }}" enctype="multipart/form-data">
             @csrf
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -31,44 +26,35 @@
                         <label class="block text-sm font-medium text-gray-600 mb-1">
                             Nombre
                         </label>
-                        <input name="nombre"
-                            class="modal-input text-gray-800 bg-gray-100"
-                            placeholder="Nombre del producto"
-                            required>
+                        <input name="nombre" class="modal-input text-gray-800 bg-gray-100"
+                            placeholder="Nombre del producto" required>
                     </div>
 
-                    <div>
-                        <label class="block text-sm font-medium text-gray-600 mb-1">
-                            Categoría
-                        </label>
-                        <input name="categoria"
-                            class="modal-input text-gray-800 bg-gray-100"
-                            placeholder="Categoría"
-                            required>
-                    </div>
+                    <label class="block text-sm font-medium text-gray-600 mb-1">
+                        Categoría
+                    </label>
+                    <select name="categoria_id" class="modal-input text-gray-800 bg-gray-100" required>
+                        <option value="">Seleccione una categoría</option>
+                        @foreach($categorias as $categoria)
+                            <option value="{{ $categoria->id }}">{{ $categoria->nombre }}</option>
+                        @endforeach
+                    </select>
 
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-600 mb-1">
                                 Precio
                             </label>
-                            <input name="precio"
-                                type="number"
-                                step="0.01"
-                                class="modal-input text-gray-800 bg-gray-100"
-                                placeholder="0.00"
-                                required>
+                            <input name="precio" type="number" step="0.01" class="modal-input text-gray-800 bg-gray-100"
+                                placeholder="0.00" required>
                         </div>
 
                         <div>
                             <label class="block text-sm font-medium text-gray-600 mb-1">
                                 Stock
                             </label>
-                            <input name="stock"
-                                type="number"
-                                class="modal-input text-gray-800 bg-gray-100"
-                                placeholder="0"
-                                required>
+                            <input name="stock" type="number" class="modal-input text-gray-800 bg-gray-100"
+                                placeholder="0" required>
                         </div>
                     </div>
                 </div>
@@ -80,23 +66,17 @@
                         Imagen
                     </div>
 
-                    <input type="file"
-                        name="imagen"
-                        accept="image/*"
-                        class="text-sm text-gray-600">
+                    <input type="file" name="imagen" accept="image/*" class="text-sm text-gray-600">
                 </div>
             </div>
 
             <!-- FOOTER -->
             <div class="flex justify-end gap-4 mt-8 border-t pt-6">
-                <button type="button"
-                    onclick="closeCreateModal()"
-                    class="btn-secondary">
+                <button type="button" onclick="closeCreateModal()" class="btn-secondary">
                     Cancelar
                 </button>
 
-                <button type="submit"
-                    class="btn-primary">
+                <button type="submit" class="btn-primary">
                     Guardar
                 </button>
             </div>

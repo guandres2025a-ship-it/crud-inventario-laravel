@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\User; 
+use App\Models\User;
 
 class Producto extends Model
 {
@@ -12,15 +12,20 @@ class Producto extends Model
 
     protected $fillable = [
         'nombre',
-        'categoria',
+        'categoria_id',
         'precio',
         'stock',
         'user_id',
     ];
 
-    
+
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function categoria()
+    {
+        return $this->belongsTo(Categoria::class);
     }
 }
