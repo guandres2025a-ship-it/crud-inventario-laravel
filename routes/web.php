@@ -16,6 +16,10 @@ Route::middleware([
 ])->group(function () {
     Route::get('/dashboard', [ProductoController::class, 'index'])->name('dashboard');
 
+    Route::middleware(['admin'])->group(function () {
+        Route::get('/admin', [\App\Http\Controllers\AdminController::class, 'index'])->name('admin.dashboard');
+    });
+
     Route::resource('productos', ProductoController::class);
     Route::resource('categorias', \App\Http\Controllers\CategoriaController::class);
 });

@@ -21,6 +21,12 @@
                         class="text-gray-600 hover:text-premium-600 active:text-premium-700 font-medium transition-colors duration-200">
                         {{ __('Categorías') }}
                     </x-nav-link>
+                    @if(Auth::user()->isAdmin())
+                    <x-nav-link href="{{ route('admin.dashboard') }}" :active="request()->routeIs('admin.dashboard')"
+                        class="text-red-600 hover:text-red-700 active:text-red-800 font-bold transition-colors duration-200">
+                        {{ __('Administración') }}
+                    </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -162,6 +168,11 @@
             <x-responsive-nav-link href="{{ route('categorias.index') }}" :active="request()->routeIs('categorias.*')">
                 {{ __('Categorías') }}
             </x-responsive-nav-link>
+            @if(Auth::user()->isAdmin())
+            <x-responsive-nav-link href="{{ route('admin.dashboard') }}" :active="request()->routeIs('admin.dashboard')" class="text-red-600 font-bold">
+                {{ __('Administración') }}
+            </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->
